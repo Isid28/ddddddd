@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* EnergyPal Spinning Orb Animations */
+@keyframes logo-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.6), 0 0 40px rgba(6, 182, 212, 0.3);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.9), 0 0 60px rgba(6, 182, 212, 0.5);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes lightning-glow {
+  0% { 
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)) drop-shadow(0 0 6px rgba(6, 182, 212, 0.3));
+  }
+  100% { 
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)) drop-shadow(0 0 12px rgba(34, 197, 94, 0.6));
+  }
+}
+
+@keyframes reverse-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes particle-pulse {
+  0% { 
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% { 
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+}
+
+@keyframes particle-pulse-delay {
+  0% { 
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% { 
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+}
+
+@keyframes particle-pulse-delay-2 {
+  0% { 
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% { 
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+}
+
+/* Apply animations with proper timing */
+.animate-logo-pulse {
+  animation: logo-pulse 3s ease-in-out infinite;
+}
+
+.animate-lightning-glow {
+  animation: lightning-glow 2s ease-in-out infinite alternate;
+}
+
+.animate-reverse-spin {
+  animation: reverse-spin 8s linear infinite;
+}
+
+.animate-particle-pulse {
+  animation: particle-pulse 1s ease-in-out infinite alternate;
+}
+
+.animate-particle-pulse-delay {
+  animation: particle-pulse-delay 1.4s ease-in-out infinite alternate;
+}
+
+.animate-particle-pulse-delay-2 {
+  animation: particle-pulse-delay-2 1.8s ease-in-out infinite alternate;
+}
