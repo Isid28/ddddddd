@@ -1,71 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 export default function Home() {
-  const [email, setEmail] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  });
-
-  // Countdown timer - December 12, 2025
-  useEffect(() => {
-    const targetDate = new Date('2025-12-12T23:59:59').getTime();
-
-    const updateCountdown = () => {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((difference % (1000 * 60)) / 1000)
-        });
-      }
-    };
-
-    updateCountdown();
-    const interval = setInterval(updateCountdown, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-
-    try {
-      const response = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setIsSubmitted(true);
-        setEmail('');
-      } else {
-        setError(data.error || 'Something went wrong. Please try again.');
-      }
-    } catch (err) {
-      setError('Network error. Please check your connection and try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
@@ -131,32 +68,6 @@ export default function Home() {
             <div className="inline-flex items-center px-4 py-2 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-cyan-400 text-sm font-medium mb-6">
               <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
               Coming Soon - Global Renewable Energy Marketplace
-            </div>
-            
-            {/* Launch Countdown Timer */}
-            <div className="max-w-2xl mx-auto mb-8">
-              <h3 className="text-white text-lg font-semibold mb-4 text-center">Launch Countdown</h3>
-              <div className="grid grid-cols-4 gap-4 text-center">
-                <div className="rounded-xl p-4">
-                  <div className="text-2xl md:text-3xl font-bold text-cyan-400">{timeLeft.days}</div>
-                  <div className="text-xs md:text-sm text-gray-400 uppercase tracking-wide">Days</div>
-                </div>
-                <div className="rounded-xl p-4">
-                  <div className="text-2xl md:text-3xl font-bold text-green-400">{timeLeft.hours}</div>
-                  <div className="text-xs md:text-sm text-gray-400 uppercase tracking-wide">Hours</div>
-                </div>
-                <div className="rounded-xl p-4">
-                  <div className="text-2xl md:text-3xl font-bold text-cyan-400">{timeLeft.minutes}</div>
-                  <div className="text-xs md:text-sm text-gray-400 uppercase tracking-wide">Minutes</div>
-                </div>
-                <div className="rounded-xl p-4">
-                  <div className="text-2xl md:text-3xl font-bold text-green-400">{timeLeft.seconds}</div>
-                  <div className="text-xs md:text-sm text-gray-400 uppercase tracking-wide">Seconds</div>
-                </div>
-              </div>
-              <p className="text-center text-gray-400 text-sm mt-4">
-                December 12, 2025 - The Future of Energy Trading Begins
-              </p>
             </div>
           </div>
           
@@ -422,69 +333,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Early Access Section */}
-      <section id="waitlist" className="px-6 py-20">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Be the First to Trade <span className="text-cyan-400">Renewable Energy</span>
-          </h2>
-          
-          <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
-            Join our waitlist and get early access to the future of energy trading. 
-            Start saving on your energy bills before everyone else.
-          </p>
-
-          {!isSubmitted ? (
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email address"
-                  required
-                  disabled={isLoading}
-                  className="flex-1 px-6 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                />
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg shadow-cyan-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center min-w-[140px]"
-                >
-                  {isLoading ? (
-                    <>
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Joining...
-                    </>
-                  ) : (
-                    'Join Waitlist'
-                  )}
-                </button>
-              </div>
-              
-              {/* Error Message */}
-              {error && (
-                <div className="mt-4 bg-red-500/10 border border-red-500/20 rounded-xl p-4 max-w-md mx-auto">
-                  <div className="text-red-400 text-sm font-medium">❌ {error}</div>
-                </div>
-              )}
-            </form>
-          ) : (
-            <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-6 max-w-md mx-auto">
-              <div className="text-green-400 text-xl font-semibold mb-2">✅ Thank you!</div>
-              <p className="text-gray-300">You&apos;re on the waitlist. We&apos;ll notify you when EnergyPal launches!</p>
-            </div>
-          )}
-
-            <p className="text-gray-400 text-sm mt-6">
-              Join thousands of others already waiting for the future of energy trading
-            </p>
         </div>
       </section>
 
